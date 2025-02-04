@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>MedicMate</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="static/lib/twentytwenty/twentytwenty.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <style>
+        .h5{
+            font-color: #ffffff;
+        }
+	.loading-screen {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.ecg-line {
+    width: 70vw; /* Adjusted from 90vw to 70vw */
+    height: 30vh; /* Adjusted from 40vh to 30vh */
+    position: relative;
+    overflow: hidden;
+}
+
+.ecg-path {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: draw 1.2s linear infinite;
+    stroke-width: 2; /* Slightly reduced from 4 */
+}
+
+@keyframes draw {
+    from {
+        stroke-dashoffset: 2000;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.loading-text {
+    margin-top: 25px;
+    font-size: 32px; /* Adjusted from 36px */
+    color: #06A3DA;
+    font-family: 'Jost', sans-serif;
+    font-weight: bold;
+}
+
+
+    </style>
+</head>
+
+<body>
+    <div class="loading-screen" id="loading-screen">
+    <svg class="ecg-line" viewBox="0 0 1200 300">
+        <path class="ecg-path" fill="none" stroke="#06A3DA"
+            d="M0 150
+               L150 150
+               L200 150
+               L220 30
+               L240 270
+               L260 150
+               L300 150
+               L400 150
+               L420 150
+               L440 30
+               L460 270
+               L480 150
+               L600 150
+               L800 150
+               L820 150
+               L840 30
+               L860 270
+               L880 150
+               L900 150
+               L1200 150" />
+    </svg>
+    <div class="logo">
+                <img src="../static/mm_logo.png" alt="MedicMate Logo">
+    </div>
+</div>
+
+    <!-- Spinner Start -->
+
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="index1.html" class="navbar-brand p-0">
+           <h1 class="m-0">
+                <img src="../static/mm_logo.png" alt="MedicMate Logo" class="img-fluid" style="max-width: 200px;">
+           </h1>
+
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="/" class="nav-item nav-link active">Home</a>
+
+            </div>
+            <a href="/chat" class="btn btn-primary py-2 px-4 ms-3">Chat</a>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Full Screen Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="input-group" style="max-width: 600px;">
+                        <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Full Screen Search End -->
+
+
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="static/image_2.jpg" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h2 class="display-1 text-white mb-md-4 animated zoomIn">Appointments, Bookings, Solutions<p> All in One!</p></h2>
+                            <a href="/book" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Appointment</a>
+                            <a href="/chat" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Chat</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- Banner Start -->
+    <div class="container-fluid banner mb-5">
+        <div class="container">
+            <div class="row gx-0">
+                <div class="col-lg-4 wow zoomIn" data-wow-delay="0.1s">
+                    <div class="bg-primary d-flex flex-column p-5" style="height: 300px;">
+                        <h3 class="text-white mb-3">Opening Hours</h3>
+                        <div class="d-flex justify-content-between text-white mb-3">
+                            <h6 class="text-white mb-0">Mon - Fri</h6>
+                            <p class="mb-0"> 8:00am - 9:00pm</p>
+                        </div>
+                        <div class="d-flex justify-content-between text-white mb-3">
+                            <h6 class="text-white mb-0">Saturday</h6>
+                            <p class="mb-0"> 8:00am - 7:00pm</p>
+                        </div>
+                        <div class="d-flex justify-content-between text-white mb-3">
+                            <h6 class="text-white mb-0">Sunday</h6>
+                            <p class="mb-0"> 8:00am - 5:00pm</p>
+                        </div>
+                        <a class="btn btn-light" href="/chat">Appointment</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 wow zoomIn" data-wow-delay="0.3s">
+                    <div class="bg-dark d-flex flex-column p-5" style="height: 300px;">
+                        <h3 class="text-white mb-3">Search A Doctor</h3>
+                        <div class="date mb-3" id="date" data-target-input="nearest">
+                            <input type="text" class="form-control bg-light border-0 datetimepicker-input"
+                                placeholder="Appointment Date" data-target="#date" data-toggle="datetimepicker" style="height: 40px;">
+                        </div>
+
+                        <a class="btn btn-light" href="/online">Search Doctor</a>
+                    </div>
+                </div>
+                <style>
+                    .extra{
+                        color:#ffffff;
+                        text-align:center;
+
+                    }
+                </style>
+
+                <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
+                    <div class="bg-secondary d-flex flex-column p-5" style="height: 300px;">
+                        <h3 class="text-white mb-3">Pharmacy Ordering</h3>
+                        <p class="extra">Order your medications online and get fast, hassle-free delivery to your doorstep!</p>
+                        <a class="btn btn-light" href="/pharmacy">Order</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/lib/wow/wow.min.js"></script>
+    <script src="static/lib/easing/easing.min.js"></script>
+    <script src="static/lib/waypoints/waypoints.min.js"></script>
+    <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="static/lib/twentytwenty/jquery.event.move.js"></script>
+    <script src="static/lib/twentytwenty/jquery.twentytwenty.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="static/js/main.js"></script>
+    <script>
+	document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.transition = 'opacity 0.5s ease-out';
+        setTimeout(function() {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }, 3000);
+});
+</script>
+</body>
+
+</html>

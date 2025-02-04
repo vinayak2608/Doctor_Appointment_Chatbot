@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Consultation</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        /* Header styles */
+        header {
+            background-color: #ffffff;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo img {
+            height : 60px;
+        }
+        nav ul {
+            display: flex;
+            list-style-type: none;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .clinic-login {
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        /* Categories section styles */
+        .categories {
+            background-color: #23395d;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            color:#fff;
+            margin-top: 40px;
+            padding: 20px;
+            font-family: 'Montserrat', sans-serif; /* Modern primary font */
+        }
+        .category-item {
+            height: 140px;
+            width: 140px;
+            margin: auto;
+            text-align: center;
+        }
+        .category-item img {
+            width: 60px;
+            height: 60px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            /*box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);*/
+        }
+
+        /* Doctor Cards Styles */
+        /* Doctor Cards Styles */
+.doctor-images-wrapper, .doctor-images-wrapper2 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 50px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.doctor-card {
+    width: 250px;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+    font-family: 'Montserrat', sans-serif; /* Modern primary font */
+
+}
+
+.doctor-card:hover {
+    transform: scale(1.05);
+}
+
+.doctor-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.doctor-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 123, 255, 0.8);
+    color: #fff;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.doctor-card:hover .doctor-info {
+    opacity: 1;
+}
+/* Doctor Profile Section */
+.doctor-info-section {
+            font-family: 'Montserrat', sans-serif;
+            display: none;
+            width: 80%;
+            margin: 20px auto;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .doctor-profile-container {
+            display: flex;
+            padding: 25px;
+            gap: 30px;
+        }
+
+        .doctor-image-container {
+            flex: 0 0 200px;
+        }
+
+        .doctor-info-section img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .doctor-details {
+            flex: 1;
+            text-align: left;
+        }
+
+        .available-times {
+            margin: 15px 0;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        #book-appointment {
+            background-color: green;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #book-appointment:hover {
+            background-color: #0056b3;
+        }
+
+        .reschedule-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .doctor-profile-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .doctor-details {
+                text-align: center;
+            }
+        }
+/*faq styling*/
+        .faq-section {
+    padding: 40px;
+    background-color: #f8f9fa;
+    margin-top: 40px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.faq-section h2 {
+    text-align: center;
+    color: #23395d;
+    margin-bottom: 30px;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.faq-question {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.toggle {
+    font-size: 1.5rem;
+    color: #23395d;
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.faq-answer.active {
+    padding: 20px;
+    max-height: 500px;
+}
+
+.faq-answer ul {
+    padding-left: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="../static/mm_logo.png" alt="MedicMate Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/chat" class="clinic-login">Chat</a>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="categories">
+            <div class="category-item">
+                <img src="../static/heartcare.png" alt="Heart Care">
+                <p>Heart Care</p>
+            </div>
+            <div class="category-item">
+                <img src="../static/eye.png" alt="Eye specialist">
+                <p>Eye specialist</p>
+            </div>
+            <div class="category-item">
+                <img src="../static/physician.png" alt="Physician">
+                <p>Physician</p>
+            </div>
+            <div class="category-item">
+                <img src="../static/general.png" alt="General Surgeon">
+                <p>General Surgeon</p>
+            </div>
+            <div class="category-item">
+                <img src="../static/lungs.png" alt="Lungs & Chest">
+                <p>Lungs & Chest</p>
+            </div>
+            <div class="category-item">
+                <img src="../static/ent.png" alt="ENT Specialist">
+                <p>ENT Specialist</p>
+            </div>
+        </section>
+
+        <div class="doctor-images-wrapper">
+            <div class="doctor-card" data-doctor="dr-john-doe">
+                <img src="static/doctor1.jpg" alt="Doctor 1">
+                <div class="doctor-info">
+                    <h4>Dr.Varsha</h4>
+                    <p class="speciality">Physician</p>
+                    <p>Chennai</p>
+                </div>
+            </div>
+            <div class="doctor-card" data-doctor="dr-jane-smith">
+                <img src="static/doctor2.jpg" alt="Doctor 2">
+                <div class="doctor-info">
+                    <h4>Dr.Saranya</h4>
+                    <p class="speciality">Psychiatrist</p>
+                    <p>Bangalore</p>
+                </div>
+            </div>
+            <div class="doctor-card" data-doctor="dr-emily-johnson">
+                <img src="static/doctor3.jpg" alt="Doctor 3" class="doctor-image"> <!-- Female Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Bhavya</h4>
+                    <p class="speciality">Pediatrician</p>
+                    <p>Ahmedabad</p>
+                </div>
+            </div>
+
+            <div class="doctor-card" data-doctor="dr-alex-miller">
+                <img src="static/doctor4.jpg" alt="Doctor 4" class="doctor-image"> <!-- Male Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Tarak</h4>
+                    <p class="speciality">Orthopedic</p>
+                    <p>Mumbai</p>
+                </div>
+            </div>
+        </div>
+<div class="doctor-images-wrapper2">
+            <div class="doctor-card" data-doctor="dr-lisa-wood">
+                <img src="static/doctor5.jpg" alt="Doctor 5" class="doctor-image"> <!-- Female Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Priya</h4>
+                    <p class="speciality">Gynecologist</p>
+                    <p>Hyderabad</p>
+                </div>
+            </div>
+
+            <div class="doctor-card" data-doctor="dr-susan-taylor">
+                <img src="static/doctor6.jpg" alt="Doctor 6" class="doctor-image"> <!-- Female Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Iniyan</h4>
+                    <p class="speciality">Dermatologist</p>
+                    <p>Delhi</p>
+                </div>
+            </div>
+
+            <div class="doctor-card" data-doctor="dr-michael-brown">
+                <img src="static/doctor7.jpg" alt="Doctor 7" class="doctor-image"> <!-- Male Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Aabeed</h4>
+                    <p class="speciality">Neurologist</p>
+                    <p>Vijayawada</p>
+                </div>
+            </div>
+
+            <div class="doctor-card" data-doctor="dr-michael-brown">
+                <img src="static/doctor8.jpg" alt="Doctor 7" class="doctor-image"> <!-- Female Avatar -->
+                <div class="doctor-info">
+                    <h4>Dr.Deepika</h4>
+                    <p class="speciality">Oncologist</p>
+                    <p>Visakhapatnam</p>
+                </div>
+            </div>
+
+            <!-- Add this right before the closing </div> of the container class -->
+            <!-- Add more doctor cards as needed -->
+        </div>
+    </div>
+<!-- Doctor Profile Section -->
+<div id="doctor-profile" class="doctor-info-section">
+  <div class="doctor-profile-container">
+      <div class="doctor-image-container">
+          <img id="doctor-image" alt="Doctor Image">
+      </div>
+      <div class="doctor-details">
+          <h2 id="doctor-name">Dr. John Doe</h2>
+          <p id="doctor-specialty">Cardiologist</p>
+          <p id="doctor-location">New York, USA</p>
+          <div class="available-times">
+              Available: <span id="availability-times">Mon-Fri: 9 AM - 6 PM</span>
+          </div>
+          <button id="book-appointment">Book Appointment</button>
+          <div class="reschedule-link">
+              <p>If already booked? <a href="#" onclick="navigateToReschedule()">Reschedule appointment</a></p>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+<!-- FAQ Section -->
+<section class="faq-section">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq-container">
+      <div class="faq-item">
+          <div class="faq-question">
+              <h3>What should I bring to my doctor's appointment?</h3>
+              <span class="toggle">+</span>
+          </div>
+          <div class="faq-answer">
+              <p>Please bring:</p>
+              <ul>
+                  <li>Valid ID proof</li>
+                  <li>Previous medical records</li>
+                  <li>List of current medications</li>
+                  <li>Insurance card (if applicable)</li>
+                  <li>List of questions or concerns</li>
+              </ul>
+          </div>
+      </div>
+
+      <div class="faq-item">
+          <div class="faq-question">
+              <h3>How do I schedule an appointment?</h3>
+              <span class="toggle">+</span>
+          </div>
+          <div class="faq-answer">
+              <p>Click on any doctor's card to schedule an appointment through their Calendly link. You'll be able to select a convenient time slot from their available schedule.</p>
+          </div>
+      </div>
+
+      <div class="faq-item">
+          <div class="faq-question">
+              <h3>What are the consultation charges?</h3>
+              <span class="toggle">+</span>
+          </div>
+          <div class="faq-answer">
+              <p>Consultation charges vary by specialist. General physician consultations start from ₹500, while specialist consultations may range from ₹800-₹1500.</p>
+          </div>
+      </div>
+
+      <div class="faq-item">
+          <div class="faq-question">
+              <h3>How long is each consultation session?</h3>
+              <span class="toggle">+</span>
+          </div>
+          <div class="faq-answer">
+              <p>Each consultation typically lasts 15-30 minutes, depending on the complexity of the case and the doctor's assessment.</p>
+          </div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">
+            <h3>Can I reschedule my appointment?</h3>
+            <span class="toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Yes, you can reschedule your appointment through the same Calendly link at least 24 hours before your scheduled time.</p>
+        </div>
+    </div>
+  </div>
+
+
+</section>
+
+    <script>
+      document.querySelectorAll(".doctor-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const doctorId = card.getAttribute("data-doctor");
+                const doctor = doctors[doctorId];
+
+                document.getElementById("doctor-name").textContent = doctor.name;
+                document.getElementById("doctor-specialty").textContent = doctor.specialty;
+                document.getElementById("doctor-location").textContent = doctor.location;
+                document.getElementById("doctor-image").src = doctor.image;
+                document.getElementById("availability-times").textContent = doctor.availability;
+
+                document.getElementById("doctor-profile").style.display = "block";
+            });
+        });
+
+        function navigateToReschedule() {
+            const doctorName = document.getElementById("doctor-name").textContent;
+           allocateDoctorLink(doctorName);
+        }
+        const doctors = {
+            "dr-john-doe": {
+                name: "Dr.Varsha",
+                specialty: "Physician",
+                location: "Chennai",
+                image: "static/doctor1.jpg",
+                availability: "Mon-Fri: 9 AM - 4 PM"
+            },
+            "dr-jane-smith": {
+                name: "Dr.Saranya",
+                specialty: "Psychiatrist",
+                location: "Bangalore",
+                image: "static/doctor2.jpg",
+                availability: "Mon-Fri: 10 AM - 5 PM"
+            },
+            "dr-emily-johnson": {
+                name: "Dr.Bhavya",
+                specialty: "Pediatrician",
+                location: "Ahmadabad",
+                image: "static/doctor3.jpg",
+                availability: "Mon-Fri: 8 AM - 4 PM"
+            },
+            "dr-alex-miller": {
+                name: "Dr.Tarak",
+                specialty: "Orthopedic surgeon",
+                location: "Mumbai",
+                image: "static/doctor4.jpg",
+                availability: "Mon-Fri: 9 AM - 7 PM"
+            },
+            "dr-lisa-wood": {
+                name: "Dr.Priya",
+                specialty: "Gynecologist",
+                location: "Hyderabad",
+                image: "static/doctor5.jpg",
+                availability: "Mon-Fri: 10 AM - 6 PM"
+            },
+            "dr-susan-taylor": {
+                name: "Dr.Wani Vinayak",
+                specialty: "Dermatologist",
+                location: "Mumbai",
+                image: "static/doctor6.jpg",
+                availability: "Mon-Fri: 9 AM - 4 PM"
+            },
+            "dr-michael-brown": {
+                name: "Dr.Aabeed",
+                specialty: "Neurologist",
+                location: "Vijayawada",
+                image: "static/doctor7.jpg",
+                availability: "Mon-Fri: 8 AM - 5 PM"
+            },
+            "dr-james-thomas": {
+                name: "Dr.Deepika",
+                specialty: "Oncologist",
+                location: "Vishakapatnam",
+                image: "static/doctor8.jpg",
+                availability: "Mon-Fri: 8 AM - 5 PM"
+            }
+            // Add other doctor data
+        };
+
+        document.querySelectorAll(".doctor-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const doctorId = card.getAttribute("data-doctor");
+            const doctor = doctors[doctorId];
+
+            // Update doctor profile information
+            document.getElementById("doctor-name").textContent = doctor.name;
+            document.getElementById("doctor-specialty").textContent = doctor.specialty;
+            document.getElementById("doctor-location").textContent = doctor.location;
+            document.getElementById("doctor-image").src = doctor.image;
+            document.getElementById("availability-times").textContent = doctor.availability;
+
+            // Show the profile container
+            document.getElementById("doctor-profile").style.display = "block";
+            // Scroll to the profile container
+            document.getElementById("doctor-profile").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        });
+    });
+
+    // Add click event to the Book Appointment button
+    document.getElementById("book-appointment").addEventListener("click", () => {
+        const doctorName = document.getElementById("doctor-name").textContent;
+        allocateDoctorLink(doctorName);
+    });
+
+    function navigateToReschedule() {
+        const doctorName = document.getElementById("doctor-name").textContent;
+        allocateDoctorLink(doctorName);
+    }
+
+    function allocateDoctorLink(doctorName) {
+        const calendlyLink = {
+            "Dr.Varsha": "https://calendly.com/sankani14/doctor-consultation",
+            "Dr.Saranya": "https://calendly.com/saranyapadmasri/doctor-consultation",
+            "Dr.Bhavya": "https://calendly.com/bhavyaboghani/doctor",
+            "Dr.Tarak": "https://calendly.com/ofctarak57/doctor-appointment",
+            "Dr.Priya": "https://calendly.com/nikita98rajpoot/dr-priya",
+            "Dr.Wani Vinayak": "https://calendly.com/vinayakwani520/doctor-consultation",
+            "Dr.Aabeed": "https://calendly.com/aabeedshaik56/30min",
+            "Dr.Deepika": "https://calendly.com/radhadeepika2423/doctor-consultation",
+        };
+
+        const link = calendlyLink[doctorName];
+        if (link) {
+            window.open(link, "_blank");
+        } else {
+            alert("Booking link not available for this doctor.");
+        }
+    }
+
+        // FAQ Toggle functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const toggle = question.querySelector('.toggle');
+
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+                answer.style.padding = '0 20px';
+                toggle.textContent = '+';
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 40 + 'px';
+                answer.style.padding = '20px';
+                toggle.textContent = '-';
+            }
+        });
+    });
+
+    </script>
+</body>
+</html>

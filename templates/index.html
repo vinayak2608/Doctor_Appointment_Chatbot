@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Bot</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: url('static/bgimage4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: flex-start;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .chat-container,
+        .new-container {
+            width: 400px;
+            height: 600px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .chat-header {
+            background-color: #00b4d8;
+            color: white;
+            padding: 3px 12px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-header img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        #chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .chat-message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .user {
+            background-color: rgba(188, 220, 244, 0.9);
+            color: #333;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .bot {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        .language-box-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .language-box {
+            background-color: #00b4d8;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .language-box:hover {
+            background-color: #0096b4;
+            transform: translateY(-2px);
+        }
+
+        .language-box input[type="radio"] {
+            display: none;
+        }
+
+        .language-box.selected {
+            border: 2px solid #005f73;
+            box-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+        }
+
+        .language-box label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: bold;
+        }
+
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: rgba(240, 240, 240, 0.95);
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chat-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .chat-options-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+
+        .chat-options button {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            flex: 0 1 auto;
+            min-width: 180px;
+        }
+
+        .new-container #chat-box {
+            padding: 20px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .new-container-content {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .new-container-content button {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .new-container-content input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .translated-text {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            font-size: 14px;
+            word-wrap: break-word;
+            color: #333;
+        }
+
+        .voice-input-btn {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recording {
+            animation: pulse 1.5s infinite;
+            background-color: #dc3545;
+        }
+
+        .emergency-audio-controls {
+            padding: 15px;
+            background-color: #e1eef2;
+            border-top: 1px solid #ddd;
+        }
+
+        .emergency-audio-controls h3 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .emergency-audio-controls .emergency-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+        }
+
+        .emergency-audio-controls button {
+            background-color: #00b4d8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .emergency-audio-controls button:hover {
+            background-color: #0096b4;
+        }
+
+        #currentlyPlaying {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+.emergency-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+
+}
+
+.emergency-audio-btn {
+    background-color: #00b4d8;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    max-width: 200px;
+}
+
+.sos-emergency-btn {
+    background-color: #ff0000;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    max-width: 200px;
+    animation: pulse 1.5s infinite;
+}
+
+.success-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.success-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.success-content h3 {
+    color: #28a745;
+    margin-bottom: 15px;
+}
+
+.success-content button {
+    background: #00b4d8;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.success-content button:hover {
+    background: #0096b4;
+}
+
+/* Add this to your existing style section */
+.typing-indicator {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    align-self: flex-start;
+    margin: 10px 0;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00b4d8;
+    border-radius: 50%;
+    animation: typing-bounce 0.8s infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.1s; }
+.typing-dot:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-4px); }
+}
+
+.back-button {
+    position: absolute;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: transform 0.2s;
+}
+
+.back-button:hover {
+    transform: scale(1.2);
+}
+
+.chat-header {
+    position: relative;
+}
+
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="MediBot">
+            <h1>Medical Bot</h1>
+        </div>
+
+        <div id="chat-box"></div>
+
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type a message..."/>
+            <button id="send-btn">➤</button>
+        </div>
+
+    </div>
+
+    <div class="new-container" id="new-container" style="display: none;">
+        <div class="chat-header">
+	    <button id="back-btn" class="back-button">←</button>
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png" alt="MediBot">
+            <h1>Symptom Recorder</h1>
+        </div>
+
+        <div id="new-chat-box" class="new-container-content">
+            <p><strong>Select your language:</strong></p>
+            <div class="language-box-container">
+                <div class="language-box">
+                    <input type="radio" id="hindi-btn" name="language" value="hindi">
+                    <label for="hindi-btn">Hindi</label>
+                </div>
+                <div class="language-box">
+                    <input type="radio" id="tamil-btn" name="language" value="tamil">
+                    <label for="tamil-btn">Tamil</label>
+                </div>
+                <div class="language-box">
+                    <input type="radio" id="telugu-btn" name="language" value="telugu">
+                    <label for="telugu-btn">Telugu</label>
+                </div>
+            </div>
+            <div id="language-input" style="display: none;">
+                <input type="text" id="user-message" placeholder="Type your symptoms here..."/>
+
+                <button id="translate-btn">Translate</button>
+                <div id="translated-text" class="translated-text" style="display: none;"></div>
+                <button id="send-email-btn" style="display: none;">Send Email</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const userInput = document.getElementById("user-input");
+        const sendBtn = document.getElementById("send-btn");
+        const chatBox = document.getElementById("chat-box");
+        const chatContainer = document.getElementById("chat-container");
+        const newContainer = document.getElementById("new-container");
+
+        const hindiBtn = document.getElementById("hindi-btn");
+        const tamilBtn = document.getElementById("tamil-btn");
+        const teluguBtn = document.getElementById("telugu-btn");
+
+        const userMessageInput = document.getElementById("user-message");
+        const translateBtn = document.getElementById("translate-btn");
+        const translatedTextDiv = document.getElementById("translated-text");
+        const sendEmailBtn = document.getElementById("send-email-btn");
+	const backBtn = document.getElementById("back-btn");
+
+	backBtn.addEventListener('click', () => {
+    newContainer.style.display = "none";
+    chatContainer.style.display = "flex";
+    const messages = document.querySelectorAll('.chat-message');
+    messages.forEach(message => {
+        if (message.textContent.includes('Please select your language')) {
+            message.remove();
+        }
+    });
+    clearSymptomMessages()
+
+    });
+
+
+
+        let step = 0; // Conversation step
+        let patientDetails = {};
+
+        function addMessage(sender, text, isHTML = false, options = null) {
+    if (sender === "bot") {
+        const typingIndicator = document.createElement("div");
+        typingIndicator.classList.add("typing-indicator", "chat-message", "bot");
+        typingIndicator.innerHTML = `
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        `;
+        chatBox.prepend(typingIndicator);
+
+        const delay = Math.min(Math.max(text.length * 50, 200), 500);
+
+        setTimeout(() => {
+            typingIndicator.remove();
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message", sender);
+
+            if (isHTML) {
+                messageDiv.innerHTML = text;
+                chatBox.prepend(messageDiv);
+            } else {
+                let i = 0;
+                messageDiv.textContent = "";
+                chatBox.prepend(messageDiv);
+
+                const typeChar = () => {
+                    if (i < text.length) {
+                        messageDiv.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeChar, 20);
+                    } else if (options) {
+                        // Show typing indicator for options after message is complete
+                        const optionsTypingIndicator = document.createElement("div");
+                        optionsTypingIndicator.classList.add("typing-indicator", "chat-message", "bot");
+                        optionsTypingIndicator.innerHTML = typingIndicator.innerHTML;
+                        chatBox.prepend(optionsTypingIndicator);
+
+                        // Add options after a short delay
+                        setTimeout(() => {
+                            optionsTypingIndicator.remove();
+                            addOptions(options);
+                        }, 1000);
+                    }
+                };
+                typeChar();
+            }
+        }, delay);
+    } else {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("chat-message", sender);
+        if (isHTML) {
+            messageDiv.innerHTML = text;
+        } else {
+            messageDiv.textContent = text;
+        }
+        chatBox.prepend(messageDiv);
+    }
+}
+
+function clearBookingConsultationOptions() {
+    const chatOptions = document.querySelectorAll('.chat-options');
+    chatOptions.forEach(optionsDiv => {
+        // Check if this options div contains booking consultation buttons
+        const hasBookingOptions = Array.from(optionsDiv.querySelectorAll('button')).some(
+            button => button.textContent.includes('Online Consultation') ||
+                     button.textContent.includes('Offline Consultation')
+        );
+        if (hasBookingOptions) {
+            optionsDiv.remove();
+        }
+    });
+
+    // Also remove the "Would you like to book online or offline?" message
+    const messages = document.querySelectorAll('.chat-message.bot');
+    messages.forEach(message => {
+        if (message.textContent.includes('Would you like to book online or offline?')) {
+            message.remove();
+        }
+    });
+}
+
+
+function clearRescheduleMessage() {
+    const messages = document.querySelectorAll('.chat-message.bot');
+    messages.forEach(message => {
+        if (message.textContent.includes('Please check your confirmation email for rescheduling options')) {
+            message.remove();
+        }
+    });
+}
+
+function clearSymptomMessages() {
+    const messages = document.querySelectorAll('.chat-message.bot');
+    messages.forEach(message => {
+        if (message.textContent.includes('Please describe your symptoms:')) {
+            message.remove();
+        }
+    });
+
+    // Clear the "Click Here" button
+    const clickHereButtons = document.querySelectorAll('button');
+    clickHereButtons.forEach(button => {
+        if (button.textContent === 'Click Here') {
+            button.remove();
+        }
+    });
+}
+
+
+        function addOptions(options) {
+            const optionsContainer = document.createElement("div");
+            optionsContainer.classList.add("chat-options");
+
+            // First row - Booking and Rescheduling
+            const row1 = document.createElement("div");
+            row1.classList.add("chat-options-row");
+            const bookingOptions = options.slice(0, 2);
+            bookingOptions.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.onclick = option.handler;
+                row1.appendChild(button);
+            });
+            optionsContainer.appendChild(row1);
+
+            // Second row - Symptoms and Pharmacy
+            const row2 = document.createElement("div");
+            row2.classList.add("chat-options-row");
+            const middleOptions = options.slice(2, 4);
+            middleOptions.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.onclick = option.handler;
+                row2.appendChild(button);
+            });
+            optionsContainer.appendChild(row2);
+
+            // Third row - 24x7 Care
+            const row3 = document.createElement("div");
+            row3.classList.add("chat-options-row");
+            const lastOptions = options.slice(4);
+            lastOptions.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option.text;
+                button.onclick = option.handler;
+                row3.appendChild(button);
+            });
+            optionsContainer.appendChild(row3);
+
+            chatBox.prepend(optionsContainer);
+        }
+
+
+        function showNewContainer() {
+            console.log("Showing new container");
+            chatContainer.style.display = "none"; // Hide the first container
+            newContainer.style.display = "flex"; // Show the second container
+            addMessage("bot", "Please select your language to continue.");
+        }
+
+        function showInputArea() {
+            console.log("Showing input area");
+            document.getElementById("language-input").style.display = "block";
+
+        }
+
+        async function handleTranslate() {
+            const userMessage = userMessageInput.value.trim();
+            if (!userMessage) {
+                console.log("User message is empty");
+                return;
+            }
+
+            const selectedLanguage = document.querySelector('input[name="language"]:checked').value;
+
+            if (!selectedLanguage) {
+                console.log("No language selected");
+                return;
+            }
+
+            console.log("Translating message:", userMessage, "Language:", selectedLanguage);
+
+            try {
+                const response = await fetch('/translate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: userMessage, language: selectedLanguage })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log("Translation successful:", data.translated_text);
+                translatedTextDiv.style.display = "block";
+                translatedTextDiv.textContent = `Translated Message: ${data.translated_text}`;
+                sendEmailBtn.style.display = "block";
+            } catch (error) {
+                console.error('Error during fetch operation:', error);
+                translatedTextDiv.style.display = "block";
+                translatedTextDiv.textContent = `Translation failed: ${error.message}`;
+            }
+        }
+
+        async function handleSendEmail() {
+            const translatedMessage = translatedTextDiv.textContent.replace('Translated Message: ', '').trim();
+
+            if (!translatedMessage) {
+                console.log("No translated message to send");
+                return;
+            }
+
+            try {
+                const response = await fetch('/send_email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ translated_message: translatedMessage })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log("Email sent successfully:", data.status);
+                alert("Email sent successfully!"); // Simulate email sending
+                resetToInitialContainer();
+            } catch (error) {
+                console.error('Error during email send operation:', error);
+            }
+        }
+        document.querySelectorAll('.language-box').forEach(box => {
+    box.addEventListener('click', function () {
+        // Remove selected class from all boxes
+        document.querySelectorAll('.language-box').forEach(b => b.classList.remove('selected'));
+
+        // Add selected class to clicked box
+        this.classList.add('selected');
+
+        // Check the radio input
+        const radio = this.querySelector('input[type="radio"]');
+        radio.checked = true;
+
+        // Reset the input field and translated text
+        const userMessageInput = document.getElementById('user-message');
+        const translatedTextDiv = document.getElementById('translated-text');
+        const sendEmailBtn = document.getElementById('send-email-btn');
+
+        userMessageInput.value = ''; // Clear input
+        translatedTextDiv.style.display = 'none'; // Hide translated text
+        translatedTextDiv.textContent = ''; // Clear translated text
+        sendEmailBtn.style.display = 'none'; // Hide send email button
+
+        // Show the input area
+        showInputArea();
+    });
+});
+
+        function resetToInitialContainer() {
+            console.log("Resetting to initial container");
+            newContainer.style.display = "none";
+            chatContainer.style.display = "flex";
+            chatBox.innerHTML = "";
+            addMessage("bot", "Welcome! Our virtual medical assistant is here—let’s get started!");
+            step = 0;
+        }
+
+        hindiBtn.onclick = showInputArea;
+        tamilBtn.onclick = showInputArea;
+        teluguBtn.onclick = showInputArea;
+
+        translateBtn.onclick = handleTranslate;
+        sendEmailBtn.onclick = handleSendEmail;
+
+        function handleChat() {
+            const input = userInput.value.trim();
+            if (!input) return;
+
+            addMessage("user", input);
+
+            switch (step) {
+                case 0:
+
+
+                    addMessage("bot", "Your health is our priority - how can I assist you today?", false,[
+
+                        {
+                            text: "Book an Appointment",
+                            handler: () => {
+				                clearSymptomMessages();
+				                clearRescheduleMessage();
+                                addMessage("bot", "Would you like to book online or offline?", false,[
+
+                                    {
+                                        text: "Online Consultation",
+                                        handler: () => {
+                                            window.location.href = "/online"; // Redirect to online.html
+                                        }
+                                    },
+
+                                    {
+                                        text: "Offline Consultation",
+                                        handler: () => {
+                                            window.location.href = "/book"; // Redirect to book.html
+                                        }
+                                    }
+                                ]);
+                            }
+                        },
+                        {
+                            text: "Reschedule Appointment",
+                            handler: () => {
+				clearBookingConsultationOptions();
+                                addMessage("bot", "Please check your confirmation email for rescheduling options.");
+                            }
+                        },
+                        {
+    text: "Describe Your Symptoms",
+    handler: () => {
+	clearRescheduleMessage();
+        // Show typing indicator
+        const typingIndicator = document.createElement("div");
+        typingIndicator.classList.add("typing-indicator", "chat-message", "bot");
+        typingIndicator.innerHTML = `
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        `;
+        chatBox.prepend(typingIndicator);
+
+        // First step: Show the message with typing effect
+        setTimeout(() => {
+            typingIndicator.remove();
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message", "bot");
+            let text = "Please describe your symptoms:";
+            let i = 0;
+            messageDiv.textContent = "";
+            chatBox.prepend(messageDiv);
+
+            const typeChar = () => {
+                if (i < text.length) {
+                    messageDiv.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeChar, 20);
+                } else {
+                    // Second step: Add button after message is fully typed
+                    const clickHereButton = document.createElement("button");
+                    clickHereButton.textContent = "Click Here";
+                    clickHereButton.style.backgroundColor = "#00b4d8";
+                    clickHereButton.style.color = "white";
+                    clickHereButton.style.border = "none";
+                    clickHereButton.style.borderRadius = "5px";
+                    clickHereButton.style.padding = "10px 15px";
+                    clickHereButton.style.cursor = "pointer";
+                    clickHereButton.onclick = showNewContainer;
+                    chatBox.prepend(clickHereButton);
+                    step++;
+                }
+            };
+            typeChar();
+        }, 500);
+    }
+},
+{
+    text: "Pharmacy Orders",
+    handler: () => {
+        clearSymptomMessages();
+        window.location.href = "/pharmacy"; // Redirect to book.html
+    }
+},
+
+                        {
+                            text: "24x7 Care",
+                            handler: () => {
+                                // Create and show the urgent care modal
+                                const modal = document.createElement('div');
+                                modal.className = 'urgent-care-modal';
+                                modal.innerHTML = `
+                            <div class="modal-content">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h2>24x7 Urgent Care</h2>
+                                    <button id="closeUrgentCare" style="background: #dc3545; color: white; border: none; border-radius: 5px; padding: 8px 15px; cursor: pointer;">Close</button>
+                                </div>
+                                <p><i><strong>When to use this service?</strong></p>
+                                <ul>
+                                    <li>When experiencing an urgent health issue, such as intense pain or a sudden illness.</li>
+                                    <li>In life-threatening emergencies.</li>
+                                </ul>
+                                <div class="input-group">
+                                    <label for="urgentSymptomBox">Describe your symptoms:</label>
+                                    <textarea id="urgentSymptomBox" rows="4" placeholder="Describe your symptoms or urgency..."></textarea>
+                                </div>
+                                <button onclick="handleUrgentCare()">Find Doctor</button>
+                                <div id="urgentCareStatus"></div>
+                            </div>
+                        `;
+                                modal.addEventListener('click', (e) => {
+                                    if (e.target.id === 'closeUrgentCare') {
+                                        stopCurrentAudio();
+                                        modal.remove();
+                                    }
+                                });
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    document.body.addEventListener('click', (e) => {
+                                        if (e.target.id === 'closeUrgentCare') {
+                                            stopCurrentAudio();
+                                            e.target.closest('.urgent-care-modal').remove();
+                                        }
+                                    });
+                                });
+
+
+                                document.body.appendChild(modal);
+
+                                // Add modal styles
+                                const style = document.createElement('style');
+                                style.textContent = `
+                                .urgent-care-modal {
+                                    position: fixed;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background: rgba(0,0,0,0.5);
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    z-index: 1000;
+                                }
+                                .modal-content {
+                                    background: #e1eef2;
+                                    border: 3px solid #0091c3;
+                                    padding: 20px;
+                                    border-radius: 8px;
+                                    width: 90%;
+                                    max-width: 500px;
+                                }
+                                .input-group {
+                                    margin: 15px 0;
+                                }
+                                #urgentSymptomBox {
+                                    width: 90%;
+                                    padding: 8px;
+                                }
+                                button {
+                                    background: #007bff;
+                                    color: white;
+                                    padding: 10px 20px;
+                                    border: none;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                }
+                            `;
+                                document.head.appendChild(style);
+
+                                function stopCurrentAudio() {
+                                    if (currentUtterance) {
+                                        window.speechSynthesis.cancel();
+                                        currentUtterance = null;
+                                        document.getElementById('currentlyPlaying').textContent = '';
+                                    }
+                                }
+
+                                // Close modal when clicking outside
+                                modal.addEventListener('click', (e) => {
+                                    if (e.target === modal) {
+                                        stopCurrentAudio();
+                                        modal.remove();
+                                    }
+                                });
+                            }
+                        }
+
+                    ]);
+
+
+                    break;
+
+                default:
+                    addMessage("bot", "I'm here to assist you further if needed.");
+            }
+
+            userInput.value = "";
+        }
+
+        sendBtn.addEventListener("click", handleChat);
+        userInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") handleChat();
+        });
+
+        // Initialize chat
+        addMessage("bot", "Welcome! Our virtual medical assistant is here—let’s get started!");
+    });
+
+    const emergencyDoctors = [
+        {
+            name: "Dr. Shweta Dutta",
+            specialization: "General Surgeon",
+            contact: "9876543210",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["fever", "general", "bleeding", "accident", "blood"]
+        },
+        {
+            name: "Dr. John Doe",
+            specialization: "Cardiologist",
+            contact: "9123456789",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["heart", "cardiac arrest", "chest", "heart rate"]
+        },
+        {
+            name: "Dr. Jane Smith",
+            specialization: "Dermatologist",
+            contact: "9012345678",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["skin", "rash", "itching", "dermatology", "acne", "scars", "moles"]
+        },
+        {
+            name: "Dr. Emma Wilson",
+            specialization: "Pediatrician",
+            contact: "9345678123",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["children", "child", "kid", "baby", "infant"]
+        },
+        {
+            name: "Dr. Michael Johnson",
+            specialization: "Orthopedic Surgeon",
+            contact: "9654321870",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["musculoskeletal", "spine", "sports injuries", "degenerative", "infections", "tumors", "congenital"]
+        },
+        {
+            name: "Dr. John Haddon",
+            specialization: "Pulmonologist",
+            contact: "8953337100",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["asthma", "pulmonologist", "breathlessness", "breathing", "cough"]
+        },
+        {
+            name: "Dr. Disha Sarkar",
+            specialization: "Psychiatrist ",
+            contact: "8953337100",
+            gmeet: "https://meet.google.com/fhi-rciq-mvt",
+            keywords: ["psychiatrist ", "mental", "suicidal ", "behavior"]
+        },
+    ];
+    function handleUrgentCare() {
+    const symptomText = document.getElementById('urgentSymptomBox').value.toLowerCase().trim();
+
+    document.getElementById('urgentCareStatus').innerHTML = `
+        <p><strong>Status:</strong> Matching your case to an available doctor...</p>
+    `;
+
+    setTimeout(() => {
+        const emergencyKeywords = [
+            'chest pain', 'chest', 'breath', 'breathing difficulty',
+            'suicidal', 'heart', 'breathless', 'cardiac', 'asthma',
+            'bleeding', 'accident', 'blood loss'
+        ];
+
+        const isEmergency = emergencyKeywords.some(keyword => symptomText.includes(keyword));
+
+        if (!isEmergency) {
+            document.getElementById('urgentCareStatus').innerHTML = `
+                <p style="color: #28a745; font-weight: bold; font-size: 16px;">
+                    This does not appear to be urgent. Please visit the nearest doctor at your convenience.
+                </p>
+            `;
+            return;
+        }
+
+            let matchedDoctor = null;
+            const userSymptoms = symptomText.split(' ');
+
+            // Match doctor based on symptoms
+            for (const doctor of emergencyDoctors) {
+                for (const userSymptom of userSymptoms) {
+                    if (doctor.keywords.some(keyword => userSymptom.includes(keyword))) {
+                        matchedDoctor = doctor;
+                        break;
+                    }
+                }
+                if (matchedDoctor) break;
+            }
+
+            if (!matchedDoctor) {
+                matchedDoctor = emergencyDoctors.find(doc => doc.specialization === "Physician");
+            }
+
+            // Map symptoms to specific emergency audio buttons
+            // Inside your handleUrgentCare function, replace the emergencyButton section with this:
+
+let emergencyButton = '';
+if (symptomText.includes('chest pain') || symptomText.includes('chest')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('chestPain')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('chestPain')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('breath') || symptomText.includes('breathing difficulty')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('breathingDifficulty')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('breathingDifficulty')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('suicidal')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('suicidalThoughts')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('suicidalThoughts')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('heart')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('heartPain')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('heartPain')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('breathless')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('breathlessness')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('breathlessness')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('cardiac')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('cardiacArrest')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('cardiacArrest')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('asthma')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('asthmaAttack')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('asthmaAttack')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('bleeding')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('bleeding')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('bleeding')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('accident')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('accident')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('accident')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+} else if (symptomText.includes('blood loss')) {
+    emergencyButton = `
+        <div class="emergency-audio-controls">
+            <h3>Emergency Instructions</h3>
+            <div class="emergency-buttons-container">
+                <button onclick="playAudio('bloodLoss')" class="emergency-audio-btn">Play Instructions</button>
+                <button onclick="sendEmergencyLocation('bloodLoss')" class="sos-emergency-btn">🚨 SOS - Send Location</button>
+            </div>
+            <div id="currentlyPlaying"></div>
+        </div>`;
+}
+
+
+            document.getElementById('urgentCareStatus').innerHTML = `
+        <p><strong>Doctor Assigned:</strong> ${matchedDoctor.name} (${matchedDoctor.specialization})</p>
+        <p><strong>Contact:</strong> ${matchedDoctor.contact}</p>
+        <p><strong>Google Meet:</strong> <a href="${matchedDoctor.gmeet}" target="_blank">Join Meeting</a></p>
+        <p style="color: red; font-weight: bold;">This appears to be urgent. Please join the video consultation immediately.</p>
+        ${emergencyButton}
+
+    `;
+        }, 1500);
+    }
+
+    // Add this to your existing script
+    const emergencyInstructions = {
+        chestPain: {
+            text: "For chest pain: Ensure the person is seated comfortably and stay calm. Call emergency services immediately. If not allergic, take an aspirin. Keep track of symptoms.",
+            lang: "en-US",
+            isCritical: true
+        },
+        breathingDifficulty: {
+            text: "For breathing difficulty: Help the person sit upright and loosen tight clothing around their neck. Call for help and assist with any prescribed breathing aids like an inhaler.",
+            lang: "en-US",
+            isCritical: true
+        },
+        suicidalThoughts: {
+            text: "For suicidal thoughts: Stay calm, listen without judgment, and remove potential tools of self-harm. Call a crisis hotline or emergency services immediately for professional help.",
+            lang: "en-US",
+            isCritical: true
+        },
+        heartPain: {
+            text: "For suspected heart attack: Call emergency services immediately. Have the person sit or lie down. If conscious and not allergic, give aspirin. Perform CPR if they collapse and are unresponsive.",
+            lang: "en-US",
+            isCritical: true
+        },
+        breathlessness: {
+            text: "For breathlessness: Sit the person upright in a well-ventilated area and loosen tight clothing. Call emergency services and provide prescribed medication if available.",
+            lang: "en-US",
+            isCritical: true
+        },
+        cardiacArrest: {
+            text: "For cardiac arrest: Call emergency services immediately. Start CPR with 30 compressions and 2 breaths. Use an AED if available, following its instructions.",
+            lang: "en-US",
+            isCritical: true
+        },
+        asthmaAttack: {
+            text: "For asthma attack: Help the person use their rescue inhaler. Two puffs, spaced 30 to 60 seconds apart. If symptoms persist after 10 minutes, call emergency services.",
+            lang: "en-US",
+            isCritical: true
+        },
+        bleeding: {
+            text: "For bleeding: Apply firm pressure with a clean cloth or bandage to the wound. Elevate the injured area above heart level. Call emergency services for severe bleeding.",
+            lang: "en-US",
+            isCritical: true
+        },
+        accident: {
+            text: "For general accidents: Ensure the scene is safe. Do not move the person unless in immediate danger. Call emergency services, provide basic first aid, and keep them calm until help arrives.",
+            lang: "en-US",
+            isCritical: true
+        },
+        bloodLoss: {
+            text: "For severe blood loss: Apply direct pressure to the wound with a clean cloth and elevate the injured area. Call emergency services immediately and monitor for signs of shock.",
+            lang: "en-US",
+            isCritical: true
+        }
+    };
+
+    let currentUtterance = null;
+
+    // Update the playAudio function to remove SOS button creation
+function playAudio(emergency) {
+    if (currentUtterance) {
+        window.speechSynthesis.cancel();
+    }
+
+    const instruction = emergencyInstructions[emergency];
+    const utterance = new SpeechSynthesisUtterance(instruction.text);
+    utterance.lang = instruction.lang;
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+
+    const currentlyPlayingDiv = document.getElementById('currentlyPlaying');
+    currentlyPlayingDiv.textContent = `Currently playing: ${emergency.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}`;
+
+    currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+
+    utterance.onend = () => {
+        currentlyPlayingDiv.textContent = '';
+        currentUtterance = null;
+    };
+}
+
+
+function sendEmergencyLocation(emergencyType) {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                // After getting location, show success message
+                showSuccessMessage();
+            },
+            () => {
+                alert('Unable to get location. Please call emergency services directly: 911');
+            }
+        );
+    }
+}
+
+function showSuccessMessage() {
+    // Create message container
+    const messageContainer = document.createElement('div');
+    messageContainer.style.position = 'fixed';
+    messageContainer.style.top = '50%';
+    messageContainer.style.left = '50%';
+    messageContainer.style.transform = 'translate(-50%, -50%)';
+    messageContainer.style.backgroundColor = 'white';
+    messageContainer.style.padding = '20px';
+    messageContainer.style.borderRadius = '8px';
+    messageContainer.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    messageContainer.style.zIndex = '1000';
+    messageContainer.style.textAlign = 'center';
+
+    // Add message content
+    messageContainer.innerHTML = `
+        <h3 style="color: #28a745; margin-bottom: 15px;">🏥 Emergency Alert Sent!</h3>
+        <p>Your request has been sent to the nearby hospital</p>
+        <button onclick="this.parentElement.remove()"
+                style="background: #00b4d8;
+                       color: white;
+                       border: none;
+                       padding: 8px 20px;
+                       border-radius: 5px;
+                       cursor: pointer;
+                       margin-top: 15px;">OK</button>
+    `;
+
+    // Add to document
+    document.body.appendChild(messageContainer);
+}
+
+// Add the CSS for the SOS button
+const style = document.createElement('style');
+style.textContent = `
+    .sos-emergency-btn {
+        background-color: #ff0000;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        margin-left: 10px;
+        cursor: pointer;
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+`;
+document.head.appendChild(style);
+
+
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediCare Plus - Your Online Pharmacy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>:root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --background-color: #f5f6fa;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        background-color: var(--background-color);
+    }
+
+    header {
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .logo i {
+        font-size: 2rem;
+        color: var(--secondary-color);
+    }
+
+    .search-bar {
+        display: flex;
+        gap: 0.5rem;
+        flex: 0 1 400px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .search-bar button {
+        padding: 0.5rem 1rem;
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .cart {
+        position: relative;
+        cursor: pointer;
+    }
+
+    .cart i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+    }
+
+    #cartCount {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 50%;
+        font-size: 0.8rem;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+    }
+
+    .hero h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .categories, .products, .lab-tests {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .category-grid, .product-grid, .test-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+
+    .category-card, .product-card, .test-card {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+
+
+    .category-card:hover, .product-card:hover, .test-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .category-card i {
+        font-size: 2rem;
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+    }
+
+    button {
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: var(--primary-color);
+    }
+
+    footer {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 2rem;
+        margin-top: 2rem;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+
+    .footer-section a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        margin: 0.5rem 0;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 2rem;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+    }
+
+    .close {
+        float: right;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+
+    .cart-total {
+        margin-top: 1rem;
+        text-align: right;
+    }
+    .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+        margin-bottom: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .product-card .description {
+        color: #666;
+        font-size: 0.9rem;
+        text-align: center;
+        margin: 0.5rem 0;
+    }
+
+    .product-card .price {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .no-results {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+    }
+    .lab-test-form-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .lab-test-form {
+        background: #edf7fc;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        height:90%;
+        max-width: 500px;
+        position: relative;
+        animation: slideIn 0.3s ease-out;
+        overflow-y: auto;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #2d3748;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        height: 100px;
+        resize: vertical;
+    }
+
+    .submit-btn, .cancel-btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-right: 1rem;
+    }
+
+    .submit-btn {
+        background-color: #4299e1;
+        color: white;
+    }
+
+
+    .cancel-btn {
+        background-color: #e53e3e;
+        color: white;
+    }
+
+    .submit-btn:hover {
+        background-color: #3182ce;
+    }
+
+    .cancel-btn:hover {
+        background-color: #c53030;
+    }
+    .result {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .box {
+        padding: 15px;
+        border-radius: 5px;
+        text-align: left;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        padding: 5px 0;
+    }
+
+    .row span:first-child {
+        font-weight: bold;
+        width: 120px;
+    }
+
+    #searchResults {
+        margin-top: 20px;
+        text-align: center;
+    }
+    #searchPopup {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 4px;
+        margin-top: 5px;
+        z-index: 1000;
+        padding: 15px;
+    }
+
+    .search-bar {
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #666;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+        margin-top: 15px;
+        padding: 10px;
+        background-color: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: var(--primary-color);
+    }
+
+    .result .box {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+    }
+
+            .category-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+            .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .find-doctors-btn {
+        background-color: #3498db;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .find-doctors-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .find-doctors-btn i {
+        font-size: 16px;
+    }
+
+    #prescription-file {
+            color: #000000; /* Text color inside the input */
+            padding: 10px 15px; /* Adds padding for better appearance */
+            border-radius: 5px; /* Rounded corners */
+            font-family: Arial, sans-serif; /* Consistent font styling */
+            font-size: 14px; /* Text size */
+            cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    #prescription-file:focus {
+            outline: 2px solid lightblue; /* Highlighted border when focused */
+    }
+    .prescription-results {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .prescription-results pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: inherit;
+        margin: 10px 0;
+        line-height: 1.5;
+    }
+
+
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-clinic-medical"></i>
+                <h1>MediCare Plus</h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="medicineSearchInput" placeholder="Search medicines...">
+                <button onclick="searchMedicine()"><i class="fas fa-search"></i></button>
+            </div>
+            <!-- Add this div for results -->
+            <div id="searchResults"></div>
+            <div class="nav-links">
+        <div class="cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cartCount">0</span>
+        </div>
+        <button class="find-doctors-btn" onclick="window.location.href='/book'">
+            <i class="fas fa-user-md"></i>
+            Find Doctors
+        </button>
+    </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>All Your Medications & Essentials in One Place</h2>
+            <h4>Your Trusted Partner in Health!</h4>
+        </section>
+
+        <section class="categories">
+            <h3>Shop By Category</h3>
+            <div class="category-grid">
+                <div class="category-card" onclick="findNearbyPharmacy()">
+                    <i class="fas fa-pills"></i>
+                    <h2>Find Pharmacy <br>Near Me!</h2>
+                </div>
+                <div class="category-card" onclick="scheduleLabTest()">
+                    <i class="fas fa-flask"></i>
+                    <h2>Doorstep <br> Lab Diagnostics</h2>
+                </div>
+                <div class="category-card">
+                    <i class="fas fa-first-aid"></i>
+                    <h2>Upload Prescription</h2>
+                    <form id="upload-form">
+                        <input type="file" id="prescription-file" accept=".pdf,.jpg,.jpeg,.png" required>
+                        <button type="submit">Extract Medications</button>
+                    </form>
+                    <div id="upload-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products">
+            <h3>Popular Medicines</h3>
+            <div class="product-grid" id="productGrid">
+                <!-- Products will be added dynamically -->
+            </div>
+        </section>
+
+            </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: support@medicare.com</p>
+                <p>Phone: 1-800-MEDICARE</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#">About Us</a>
+
+            </div>
+        </div>
+    </footer>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <h4>Total: ₹<span id="cart-total">0</span></h4>
+                <button onclick="checkout()">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+
+    <script>// Sample product data
+        const products = [
+            {
+                id: 1,
+                name: 'Paracetamol',
+                price: 33,
+                image: 'static/1.png',
+                description: 'Pain reliever and fever reducer'
+            },
+            {
+                id: 2,
+                name: 'Aspirin',
+                price: 45,
+                image: 'static/2.png',
+                description: 'Pain reliever and blood thinner'
+            },
+            {
+                id: 3,
+                name: 'Vitamin C',
+                price: 100,
+                image: 'static/3.png',
+                description: 'Immune system booster'
+            },
+            {
+                id: 4,
+                name: 'Ibuprofen',
+                price: 150,
+                image: 'static/4.png',
+                description: 'Pain reliever'
+            }
+        ];
+
+
+        let cart = [];
+
+        // Display products
+        function displayProducts() {
+            const productGrid = document.getElementById('productGrid');
+            productGrid.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}"
+                        alt="${product.name}"
+                        style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;"
+                        onerror="handleImageError(this)">
+                    <h4>${product.name}</h4>
+                    <p class="description">${product.description}</p>
+                    <p class="price">₹${product.price}</p>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                `;
+                productGrid.appendChild(productCard);
+            });
+        }
+
+        // Search functionality
+        // Add at the beginning of your script
+        const priceList = {}; // Initialize priceList
+
+        // Replace the existing searchMedicine function
+
+        function searchMedicine(query = null) {
+            const userQuery = query || document.getElementById('medicineSearchInput').value.trim();
+            const resultsDiv = document.getElementById('searchResults');
+
+            // Create popup container if it doesn't exist
+            let popupContainer = document.getElementById('searchPopup');
+            if (!popupContainer) {
+                popupContainer = document.createElement('div');
+                popupContainer.id = 'searchPopup';
+                document.querySelector('.search-bar').appendChild(popupContainer);
+            }
+
+            if (!userQuery) {
+                popupContainer.innerHTML = "<p style='color:red;'>Please enter a medicine name.</p>";
+                popupContainer.style.display = 'block';
+                return;
+            }
+
+            const apiUrl = `https://api.fda.gov/drug/label.json?search=openfda.brand_name:"${userQuery}"`;
+            popupContainer.innerHTML = "<p>Searching...</p>";
+            popupContainer.style.display = 'block';
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error("No data found.");
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        const result = data.results[0];
+                        const brandName = result.openfda.brand_name ? result.openfda.brand_name[0] : "Unknown";
+                        const genericName = result.openfda.generic_name ? result.openfda.generic_name[0] : "N/A";
+                        const manufacturer = result.openfda.manufacturer_name ? result.openfda.manufacturer_name[0] : "N/A";
+                        const purpose = result.purpose ? result.purpose[0] : "Information not available";
+
+                        if (!priceList[brandName]) {
+                            priceList[brandName] = parseFloat((Math.random() * 100 + 1).toFixed(2));
+                        }
+                        const price = priceList[brandName];
+
+                        popupContainer.innerHTML = `
+                            <div class="result">
+                                <div class="box">
+                                    <div class="close-btn" onclick="closeSearchPopup()">&times;</div>
+                                    <div class="row">
+                                        <span>Brand Name:</span>
+                                        <span>${brandName}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>Generic Name:</span>
+                                        <span>${genericName}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>Manufacturer:</span>
+                                        <span>${manufacturer}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>Purpose:</span>
+                                        <span>${purpose}</span>
+                                    </div>
+                                    <div class="row">
+                                        <span>Price:</span>
+                                        <span>₹${price}</span>
+                                    </div>
+                                    <button class="add-to-cart-btn" onclick="addToCartAndClose('${brandName}', ${price})">Add to Cart</button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        popupContainer.innerHTML = "<p style='color:blue;'>Medicine not found. Please try another name.</p>";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    popupContainer.innerHTML = "<p style='color:red;'>Medicine not found. Please try with another name.</p>";
+                });
+        }
+
+        function closeSearchPopup() {
+            const popup = document.getElementById('searchPopup');
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
+
+        function addToCartAndClose(brandName, price) {
+            addToCart(brandName, price);
+            closeSearchPopup();
+            // Optional: Show a confirmation message
+            alert(`${brandName} added to cart successfully!`);
+        }
+
+
+        // Cart functionality
+        function addToCart(productIdOrName, price = null) {
+            let item;
+            if (typeof productIdOrName === 'number') {
+                // Handle product from product list
+                item = products.find(p => p.id === productIdOrName);
+            } else {
+                // Handle medicine from search
+                item = {
+                    name: productIdOrName,
+                    price: price,
+                    description: 'Prescription Medicine'
+                };
+            }
+
+            if (item) {
+                cart.push(item);
+                updateCartCount();
+            }
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function showCart() {
+            const modal = document.getElementById('cart-modal');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.style.display = 'flex';
+                itemDiv.style.justifyContent = 'space-between';
+                itemDiv.style.alignItems = 'center';
+                itemDiv.style.marginBottom = '10px';
+
+                itemDiv.innerHTML = `
+                    <span>${item.name} - ₹${item.price}</span>
+                    <button onclick="removeFromCart(${index})" style="background-color: #e74c3c;">Remove</button>
+                `;
+                cartItems.appendChild(itemDiv);
+                total += item.price;
+            });
+
+            cartTotal.textContent = total.toFixed(2);
+            modal.style.display = 'block';
+        }
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            showCart();
+        }
+        // Lab test booking
+        function bookTest(testName, price) {
+            alert(`Lab test ${testName} booked successfully for ₹${price}`);
+        }
+
+        // Close modal
+        document.querySelector('.close').onclick = function() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        // Checkout function
+        // Replace the existing checkout function with this:
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            // Store cart data in localStorage before redirecting
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Redirect to billing page
+            window.location.href = 'billing';
+        }
+
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayProducts();
+            document.querySelector('.cart').addEventListener('click', showCart);
+        });
+        function handleImageError(img) {
+            img.onerror = null;
+            img.src = 'https://via.placeholder.com/100x100?text=Medicine';
+        }
+
+        // Lab test scheduling functionality
+        function scheduleLabTest() {
+            // Create and insert the form dynamically
+            const formHTML = `
+                <div class="lab-test-form-container" id="labTestFormContainer">
+                    <div class="lab-test-form">
+                        <h3>Schedule Home Lab Test</h3>
+                        <form onsubmit="handleLabTestSubmit(event)">
+                            <div class="form-group">
+                                <label for="fullName">Full Name:</label>
+                                <input type="text" id="fullName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone">Phone Number:</label>
+                                <input type="tel" id="phone" pattern="[0-9]{10}" title="Please enter valid 10-digit number" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address">Home Address:</label>
+                                <textarea id="address" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="testType">Select Test Type:</label>
+                                <select id="testType" required>
+                                    <option value="">Choose a test</option>
+                                    <option value="Blood Test">Blood Test</option>
+                                    <option value="Cholesterol Test">Cholesterol Test</option>
+                                    <option value="Diabetes Test">Diabetes Test</option>
+                                    <option value="Thyroid Test">Thyroid Test</option>
+                                    <option value="Complete Blood Count">Complete Blood Count</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="preferredDate">Preferred Date:</label>
+                                <input type="date" id="preferredDate" required min="${new Date().toISOString().split('T')[0]}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="preferredTime">Preferred Time:</label>
+                                <select id="preferredTime" required>
+                                    <option value="">Select time slot</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="submit-btn">Schedule Test</button>
+                            <button type="button" class="cancel-btn" onclick="closeForm()">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            // Insert the form into the body
+            document.body.insertAdjacentHTML('beforeend', formHTML);
+        }
+
+        function closeForm() {
+            const formContainer = document.getElementById('labTestFormContainer');
+            if (formContainer) {
+                formContainer.remove();
+            }
+        }
+
+        function handleLabTestSubmit(event) {
+            event.preventDefault();
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                testType: document.getElementById('testType').value,
+                preferredDate: document.getElementById('preferredDate').value,
+                preferredTime: document.getElementById('preferredTime').value
+            };
+
+            const confirmationMessage = `
+                Test Scheduled Successfully!
+                Test Type: ${formData.testType}
+                Name: ${formData.fullName}
+                Phone: ${formData.phone}
+                Address: ${formData.address}
+                Date: ${formData.preferredDate}
+                Time: ${formData.preferredTime}
+                Our phlebotomist will visit your home at the scheduled time.
+            `;
+
+            alert(confirmationMessage);
+            closeForm();
+        }
+
+        function findNearbyPharmacy() {
+            if (navigator.geolocation) {
+                // Request precise location with maximum accuracy
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
+            } else {
+                alert("Please use a browser that supports location services to find nearby pharmacies.");
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Using specific parameters for local search
+            // radius=2000 means 2km radius
+            // zoom=16 provides a detailed neighborhood view
+            const mapUrl = `https://www.google.com/maps/search/pharmacy/@${latitude},${longitude},16z/data=!4m4!2m3!5m1!2e1!6e6`;
+
+            // Alternative more specific search
+            const localSearchUrl = `https://www.google.com/maps/search/medical+store+pharmacy/@${latitude},${longitude},16z/data=!3m1!4b1!4m2!2m1!6e2`;
+
+            window.open(localSearchUrl, "_blank");
+        }
+
+        function showError(error) {
+            const messages = {
+                1: "Please enable location access in your browser settings to find nearby pharmacies.",
+                2: "Your location couldn't be determined. Please check your GPS settings.",
+                3: "Location request took too long. Please try again.",
+                0: "Something went wrong. Please refresh and try again."
+            };
+            alert(messages[error.code] || messages[0]);
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.13.216/pdf.min.js"></script>
+    <script>
+        // Add this inside your existing script tag
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const file = document.getElementById('prescription-file').files[0];
+            const fileType = file.type;
+
+            // Handle different file types
+            if (fileType === "application/pdf") {
+                handlePDFFile(file);
+            } else if (fileType.startsWith("image/")) {
+                handleImageFile(file);
+            } else {
+                alert("Please upload a valid file (PDF, JPG, JPEG, PNG)");
+            }
+        });
+
+        function handlePDFFile(file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const typedarray = new Uint8Array(this.result);
+                pdfjsLib.getDocument(typedarray).promise.then(function(pdf) {
+                    let extractedText = '';
+                    const promises = [];
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        promises.push(pdf.getPage(i).then(page => {
+                            return page.getTextContent().then(textContent => {
+                                textContent.items.forEach(item => {
+                                    extractedText += item.str + ' ';
+                                });
+                            });
+                        }));
+                    }
+                    Promise.all(promises).then(() => {
+                        const medicationText = extractMedication(extractedText);
+                        displayResults(medicationText);
+                    });
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function handleImageFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    // Show loading message
+                    displayResults("Processing prescription image... Please wait.");
+
+                    // Process image using Tesseract OCR
+                    Tesseract.recognize(
+                        img,
+                        'eng', // Language: English
+                        {
+                            logger: m => {
+                                // Optional: Show progress
+                                if (m.status === 'recognizing text') {
+                                    displayResults(`Processing: ${Math.round(m.progress * 100)}%`);
+                                }
+                            }
+                        }
+                    ).then(({ data: { text } }) => {
+                        // Pre-process extracted text
+                        const cleanText = text.replace(/\s+/g, ' ').trim();
+
+                        // Extract medication information
+                        const medications = extractMedicationsFromImage(cleanText);
+
+                        // Display results
+                        displayResults(medications);
+                    }).catch(error => {
+                        displayResults("Error processing image. Please try again.");
+                        console.error(error);
+                    });
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function extractMedicationsFromImage(text) {
+            // Enhanced pattern matching for common prescription formats
+            const patterns = [
+                /(?:prescribed|rx|medication)[\s:]+([^.]+)/i,
+                /(?:take|use)[\s:]+([^.]+)/i,
+                /(?:\d+(?:\.\d+)?(?:\s*(?:mg|ml|tablet|capsule|dose|times|daily))+)/gi
+            ];
+
+            let medications = [];
+
+            // Try each pattern
+            for (let pattern of patterns) {
+                const matches = text.match(pattern);
+                if (matches) {
+                    medications = medications.concat(matches);
+                }
+            }
+
+            // Remove duplicates and clean up
+            medications = [...new Set(medications)].map(med => med.trim());
+
+            if (medications.length > 0) {
+                return "Found medications:\n" + medications.join("\n");
+            }
+
+            // Additional medical terms detection
+            const medicalTerms = extractMedicalTerms(text);
+            if (medicalTerms.length > 0) {
+                return "Possible medications found:\n" + medicalTerms.join("\n");
+            }
+
+            return "No clear medication information found. Please verify the image quality.";
+        }
+
+        function extractMedicalTerms(text) {
+            // Common medication suffixes and patterns
+            const medPatterns = [
+                /\w+(?:cin|zole|dryl|xin|pine|zide|ide|ate|ine)\b/gi,
+                /\d+\s*(?:mg|ml|mcg)\b/gi,
+                /(?:tablet|capsule|injection|syrup|ointment)/gi
+            ];
+
+            let terms = [];
+            medPatterns.forEach(pattern => {
+                const matches = text.match(pattern);
+                if (matches) {
+                    terms = terms.concat(matches);
+                }
+            });
+
+            return [...new Set(terms)];
+        }
+
+        function displayResults(text) {
+            const resultDiv = document.getElementById('upload-message');
+            resultDiv.innerHTML = `
+                <div class="prescription-results">
+                    <h4>Prescription Analysis Results:</h4>
+                    <pre>${text}</pre>
+                </div>
+            `;
+        }
+
+        function extractMedication(text) {
+            const medicationPattern = /prescribed\s*medicines?:?\s*([\s\S]*?)(?=additional\s+notes?|$)/i;
+            const match = medicationPattern.exec(text);
+            return match ? match[1].trim().replace(/\s+/g, ' ') : "No prescribed medicines found.";
+        }
+    </script>
+
+</body>
+</html>

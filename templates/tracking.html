@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Delivery Tracking System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            /* Update this line with your image path */
+
+            background: linear-gradient(rgba(9, 30, 62, 0.8), rgba(9, 30, 62, 0.8)), url("../static/track.jpeg") center center/cover fixed;
+            background-size: cover;
+
+
+
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            text-align: center;
+
+            border-radius: 20px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .tracking-form {
+    margin: 30px auto;
+    animation: fadeIn 0.5s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 800px;
+}
+
+        input {
+            padding: 15px;
+            width: 300px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 2px solid #43cea2;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(67, 206, 162, 0.3);
+            transform: scale(1.02);
+        }
+
+        button {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #43cea2, #185a9d);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tracking-result {
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 15px;
+    display: none;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    position: relative;
+    left: 35%;
+    right: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+        .status-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .status-steps::before {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ddd;
+            z-index: 1;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: #43cea2;
+            z-index: 2;
+            transition: width 1s ease-in-out;
+        }
+
+        .step {
+            flex: 1;
+            padding: 15px;
+            position: relative;
+            z-index: 2;
+            background: white;
+        }
+
+        .step::before {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: #ddd;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
+            border: 4px solid white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .step.active::before {
+            background: #43cea2;
+        }
+
+        .delivery-vehicle {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            z-index: 3;
+            transition: all 1s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        .vehicle-icon {
+            width: 40px;
+            height: 40px;
+            fill: #185a9d;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .delivery-vehicle.moving .vehicle-icon {
+            animation: vehicleBounce 0.5s infinite;
+        }
+
+        @keyframes vehicleBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .order-details {
+            text-align: left;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            border-left: 5px solid #43cea2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <svg style="display: none;">
+        <symbol id="bike-icon" viewBox="0 0 640 512">
+            <path d="M280 32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v64.8c0 19.6-15.9 35.2-35.5 35.2h-37.5c-20.5 0-37.3-16.2-38-36.7L277.8 160H256c-17.7 0-32-14.3-32-32V32zM128 288c0-17.7 14.3-32 32-32h320c17.7 0 32 14.3 32 32v160c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V288zM32 416c0-53 43-96 96-96s96 43 96 96s-43 96-96 96s-96-43-96-96zm416 0c0-53 43-96 96-96s96 43 96 96s-43 96-96 96s-96-43-96-96z"/>
+        </symbol>
+    </svg>
+
+    <div class="container">
+        <h1>Track Your Order</h1>
+        <div class="tracking-form">
+            <input type="text" id="orderNumber" placeholder="Enter Order Number">
+            <button onclick="trackOrder()">Track</button>
+        </div>
+        <div id="result" class="tracking-result"></div>
+    </div>
+
+    <script>
+        function updateVehicle(step) {
+            const vehicle = document.querySelector('.delivery-vehicle');
+            const icon = vehicle.querySelector('.vehicle-icon use');
+            const progressBar = document.querySelector('.progress-bar');
+            const steps = document.querySelectorAll('.step');
+            
+            icon.setAttribute('href', '#bike-icon');
+            
+            switch(step) {
+                case 'order':
+                    vehicle.style.opacity = '1';
+                    vehicle.style.left = '8%';
+                    progressBar.style.width = '8%';
+                    steps[0].classList.add('active');
+                    break;
+                case 'processing':
+                    vehicle.style.left = '33%';
+                    progressBar.style.width = '33%';
+                    steps[1].classList.add('active');
+                    break;
+                case 'shipping':
+                    vehicle.style.left = '58%';
+                    progressBar.style.width = '58%';
+                    steps[2].classList.add('active');
+                    break;
+                case 'delivered':
+                    vehicle.style.left = '84%';
+                    progressBar.style.width = '84%';
+                    steps[3].classList.add('active');
+                    setTimeout(() => {
+                        vehicle.style.opacity = '0';
+                    }, 1000);
+                    break;
+            }
+        }
+
+        function getEstimatedDelivery() {
+            const now = new Date();
+            const deliveryTime = new Date(now.getTime() + (2.5 * 60 * 60 * 1000)); // 2.5 hours from now
+            
+            const hours = deliveryTime.getHours();
+            const minutes = deliveryTime.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            // Convert to 12-hour format
+            const formattedHours = hours % 12 || 12;
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            return `Today by ${formattedHours}:${formattedMinutes} ${ampm}`;
+        }
+
+        function getCurrentDate() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            // Convert to 12-hour format
+            const formattedHours = hours % 12 || 12;
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            
+            return `${formattedHours}:${formattedMinutes} ${ampm}`;
+        }
+
+        function trackOrder() {
+            const orderNumber = document.getElementById('orderNumber').value;
+            const result = document.getElementById('result');
+            
+            if (orderNumber) {
+                result.style.display = 'block';
+                result.innerHTML = `
+                    <h2>Order #${orderNumber}</h2>
+                    <div class="order-details">
+                        <p><strong>Estimated Delivery:</strong> ${getEstimatedDelivery()}</p>
+                        <p><strong>Shipping Method:</strong> Express Delivery</p>
+                        <p><strong>Order Time:</strong> ${getCurrentDate()}</p>
+                    </div>
+                    <div class="status-steps">
+                        <div class="progress-bar"></div>
+                        <div class="delivery-vehicle moving">
+                            <svg class="vehicle-icon">
+                                <use href="#bike-icon"></use>
+                            </svg>
+                        </div>
+                        <div class="step">
+                            <div>Order Placed</div>
+                            <small>${getCurrentDate()}</small>
+                        </div>
+                        <div class="step">
+                            <div>Processing</div>
+                            <small>In Progress</small>
+                        </div>
+                        <div class="step">
+                            <div>Shipping</div>
+                            <small>Pending</small>
+                        </div>
+                        <div class="step">
+                            <div>Delivered</div>
+                            <small>Pending</small>
+                        </div>
+                    </div>
+                `;
+
+                setTimeout(() => updateVehicle('order'), 0);
+                setTimeout(() => updateVehicle('processing'), 2000);
+                setTimeout(() => updateVehicle('shipping'), 4000);
+                setTimeout(() => updateVehicle('delivered'), 6000);
+            }
+        }
+    </script>
+</body>
+</html>

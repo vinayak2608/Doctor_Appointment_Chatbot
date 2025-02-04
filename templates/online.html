@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Doctor Consultation & Medicines</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .main-section {
+            background: #fff;
+            min-height: 100vh;
+            padding: 40px 5%;
+        }
+
+        .consult-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+        }
+
+        .header-section {
+            background: linear-gradient(rgba(20, 190, 240, 0.1), rgba(255, 255, 255, 0.1));
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+        }
+
+        .header-section h1 {
+            font-size: 36px;
+            color: #2d2d32;
+            margin-bottom: 16px;
+        }
+
+        .header-section p {
+            font-size: 18px;
+            color: #787887;
+            margin-bottom: 24px;
+        }
+
+        .consult-title {
+            color: #2d2d32;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .specialty-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid #e0e0e0;
+        }
+
+        .specialty-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .specialty-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+            background: #f7f8ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .specialty-info h3 {
+            color: #2d2d32;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .specialty-info p {
+            color: #787887;
+            font-size: 14px;
+        }
+
+        .price-tag {
+            color: #14bef0;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .cta-button, .consult-now-btn {
+            background: #14bef0;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cta-button:hover, .consult-now-btn:hover {
+            background: #0fa7d4;
+            transform: translateY(-2px);
+        }
+
+        .benefits-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .benefit-card img {
+            width: 64px;
+            margin-bottom: 16px;
+        }
+
+        .benefit-card h3 {
+            color: #2d2d32;
+            margin-bottom: 8px;
+        }
+
+        .benefit-card p {
+            color: #787887;
+        }
+
+        .faq-section {
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            color: #2d2d32;
+            margin-bottom: 30px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question h3 {
+            font-size: 16px;
+            color: #2d2d32;
+        }
+
+        .toggle {
+            color: #14bef0;
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            display: none;
+        }
+
+        .faq-answer p {
+            color: #787887;
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .toggle {
+            transform: rotate(45deg);
+        }
+
+        @media (max-width: 768px) {
+            .specialties-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-section h1 {
+                font-size: 28px;
+            }
+            .header-section p {
+                font-size: 16px;
+            }
+
+        }.faq-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.faq-column {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .faq-container {
+        flex-direction: column;
+    }
+}
+.consultation-steps {
+    padding: 60px 0;
+    background: #f8f9fa;
+    margin-top: 40px;
+    border-radius: 12px;
+}
+
+.consultation-steps h2 {
+    text-align: center;
+    color: #2d2d32;
+    margin-bottom: 40px;
+}
+
+.steps-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.step-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.step-number {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #14bef0;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.step-icon {
+    font-size: 32px;
+    margin: 10px 0 20px;
+}
+
+.step-card h3 {
+    color: #2d2d32;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    color: #787887;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+    }
+    .step-card {
+        margin: 20px 0;
+    }
+}
+.benefits-section {
+    padding: 40px 0;
+    background: #f8f9fa;
+}
+
+.benefits-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; /* Centers items vertically */
+    gap: 80px;
+    padding: 0 20px;
+}
+
+.benefits-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.benefit-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.benefit-card img {
+    width: 48px;
+    height: 48px;
+}
+
+.benefit-card h3 {
+    color: #2d2d32;
+    margin-bottom: 8px;
+}
+
+.benefit-card p {
+    color: #787887;
+}
+
+.video-container {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Centers the video horizontally */
+    align-items: center;
+    max-width: 500px; /* Limits maximum width */
+}
+
+.video-container video {
+    width: 200px;
+    height: 400px;
+    aspect-ratio: 16/9; /* Maintains video aspect ratio */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    object-fit: cover;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    z-index: 1001;
+}
+
+.popup-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.popup-header h2 {
+    color: #2d2d32;
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.popup-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #787887;
+}
+
+.consultation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: #2d2d32;
+}
+
+.form-group select,
+.form-group input {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.verify-button {
+    background: #14bef0;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.verify-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.otp-section {
+    display: none;
+}
+
+.otp-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.otp-input input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+}
+
+
+@media (max-width: 768px) {
+    .benefits-container {
+        flex-direction: column;
+    }
+
+    .benefit-card {
+        text-align: left;
+    }
+
+    .video-container {
+        margin-top: 20px;
+    }
+}
+.confirmation-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1002;
+    display: none;
+}
+
+.confirmation-popup p {
+    color: #2d2d32;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.confirmation-popup button {
+    background: #14bef0;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="static\mm_logo.png" alt="MedicMate Logo">
+        </div>
+        <button class="consult-now-btn">Consult Now</button>
+    </header>
+
+    <main class="main-section">
+        <div class="consult-card">
+            <div class="header-section" id="home">
+                <h1>Online Doctor Consultation</h1>
+                <p>Get expert medical advice from the comfort of your home</p>
+                <button class="cta-button">Book Appointment</button>
+            </div>
+
+            <h1 class="consult-title">Consult with top doctors online</h1>
+            <div class="specialties-grid">
+                <div class="specialty-item">
+                    <div class="specialty-icon">👨‍⚕️</div>
+                    <div class="specialty-info">
+                        <h3>General Physician</h3>
+                        <p>For common health concerns</p>
+                        <span class="price-tag">₹499</span>
+                    </div>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">🧠</div>
+                    <div class="specialty-info">
+                        <h3>Psychiatrist</h3>
+                        <p>For mental health concerns</p>
+                        <span class="price-tag">₹899</span>
+                    </div>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">👶</div>
+                    <div class="specialty-info">
+                        <h3>Pediatrician</h3>
+                        <p>Child specialists</p>
+                        <span class="price-tag">₹699</span>
+                    </div>
+                </div>
+                <div class="specialty-item">
+                    <div class="specialty-icon">🦷</div>
+                    <div class="specialty-info">
+                        <h3>Dentist</h3>
+                        <p>For dental problems</p>
+                        <span class="price-tag">₹599</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits-section">
+            <div class="benefits-container">
+                <div class="benefits-list">
+                    <div class="benefit-card">
+                        <img src="data:image/svg+xml,<svg viewBox='0 0 24 24' fill='%2314bef0' xmlns='http://www.w3.org/2000/svg'><path d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-8h4v2h-6V7h2v5z'/></svg>" alt="24/7">
+                        <h3>24/7 Availability</h3>
+                        <p>Connect with doctors anytime</p>
+                    </div>
+                    <div class="benefit-card">
+                        <img src="data:image/svg+xml,<svg viewBox='0 0 24 24' fill='%2314bef0' xmlns='http://www.w3.org/2000/svg'><path d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z'/></svg>" alt="Verified">
+                        <h3>Verified Doctors</h3>
+                        <p>All doctors thoroughly verified</p>
+                    </div>
+                    <div class="benefit-card">
+                        <img src="data:image/svg+xml,<svg viewBox='0 0 24 24' fill='%2314bef0' xmlns='http://www.w3.org/2000/svg'><path d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-1-7h2V7h-2v6z'/></svg>" alt="Instant">
+                        <h3>Instant Consultation</h3>
+                        <p>Connect within 60 seconds</p>
+                    </div>
+                </div>
+                <div class="video-container">
+                    <video autoplay loop muted playsinline>
+                        <source src="../static/video.webm" type="video/webm">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <section class="consultation-steps">
+            <h2>How Consultation Works</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🔍</div>
+                    <h3>Select Specialist</h3>
+                    <p>Choose from our verified specialists based on your health concern</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📅</div>
+                    <h3>Book Time Slot</h3>
+                    <p>Select your preferred time slot for instant consultation</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">👨‍⚕️</div>
+                    <h3>Consult Doctor</h3>
+                    <p>Connect with doctor via video call and get digital prescription</p>
+                </div>
+            </div>
+        </section>
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-column">
+                    <!-- Left Column -->
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How do online consultations work?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Select your preferred doctor, book a slot, and connect via video call. You'll receive a detailed prescription after consultation.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What are the payment options?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We accept all major credit/debit cards, UPI, net banking, and digital wallets for your convenience.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is my medical data secure?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we use advanced encryption and follow HIPAA guidelines to protect your medical information.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-column">
+                    <!-- Right Column -->
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can I get a prescription online?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, doctors provide digital prescriptions valid at all pharmacies nationwide.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What if I need lab tests?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Doctors can recommend tests and we'll help schedule them at nearby certified labs.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Are follow-ups included?</h3>
+                            <span class="toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, free follow-up consultations are included within 7 days of your initial consultation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    const consultBtn = document.querySelector('.consult-now-btn');
+    const bookAppointmentBtn = document.querySelector('.cta-button');
+    const popup = document.getElementById('consultPopup');
+    const closeBtn = document.querySelector('.popup-close');
+    const sendOtpBtn = document.getElementById('sendOtp');
+    const verifyOtpBtn = document.getElementById('verifyOtp');
+    const mobileInput = document.getElementById('mobile');
+    const otpSection = document.getElementById('otpSection');
+    const otpInputs = document.querySelectorAll('.otp-digit');
+
+    // Open popup
+    consultBtn.addEventListener('click', () => {
+        popup.style.display = 'block';
+    });
+
+    [consultBtn, bookAppointmentBtn].forEach(button => {
+        button.addEventListener('click', () => {
+            popup.style.display = 'block';
+        });
+    });
+
+    // Close popup
+    closeBtn.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    // Close popup when clicking outside
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+
+    // Send OTP
+    sendOtpBtn.addEventListener('click', () => {
+        const mobile = mobileInput.value;
+        if (mobile.length === 10 && /^\d+$/.test(mobile)) {
+            // Here you would typically make an API call to send OTP
+            alert('OTP sent to ' + mobile);
+            otpSection.style.display = 'block';
+            sendOtpBtn.disabled = true;
+        } else {
+            alert('Please enter a valid 10-digit mobile number');
+        }
+    });
+
+    // Handle OTP input
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value) {
+                if (index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            }
+        });
+    });
+
+    // Verify OTP
+    verifyOtpBtn.addEventListener('click', () => {
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    if (otp.length === 4) {
+        // Here you would typically make an API call to verify OTP
+        alert('OTP verified successfully!');
+        popup.style.display = 'none';
+
+        // Show confirmation popup
+        document.getElementById('confirmationPopup').style.display = 'block';
+    } else {
+        alert('Please enter a valid OTP');
+    }
+});
+
+});
+function closeConfirmation() {
+    document.getElementById('confirmationPopup').style.display = 'none';
+}
+
+    </script>
+
+<div class="popup-overlay" id="consultPopup">
+    <div class="popup">
+        <span class="popup-close">&times;</span>
+        <div class="popup-header">
+            <h2>Consult with a Doctor</h2>
+        </div>
+        <form class="consultation-form" id="consultForm">
+            <div class="form-group">
+                <label for="patientName">Patient Name</label>
+                <input type="text" id="patientName" required placeholder="Enter patient's full name">
+            </div>
+            <div class="form-group">
+                <label for="specialty">Select Specialty</label>
+                <select id="specialty" required>
+                    <option value="">Choose specialty</option>
+                    <option value="gynaecology">Gynaecology - ₹499</option>
+                    <option value="dermatology">Dermatology - ₹599</option>
+                    <option value="cardiology">Cardiology - ₹799</option>
+                    <option value="pediatrics">Pediatrics - ₹699</option>
+                    <option value="orthopedics">Orthopedics - ₹649</option>
+                    <option value="dentist">Dentist - ₹599</option>
+                    <option value="general">General Physician - ₹499</option>
+                    <option value="psychiatrist">Psychiatrist - ₹899</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" pattern="[0-9]{10}" maxlength="10" required placeholder="Enter 10 digit number">
+                <button type="button" class="verify-button" id="sendOtp">Send OTP</button>
+            </div>
+            <div class="form-group otp-section" id="otpSection">
+                <label>Enter OTP</label>
+                <div class="otp-input">
+                    <input type="text" maxlength="1" class="otp-digit">
+                    <input type="text" maxlength="1" class="otp-digit">
+                    <input type="text" maxlength="1" class="otp-digit">
+                    <input type="text" maxlength="1" class="otp-digit">
+                </div>
+                <button type="button" class="verify-button" id="verifyOtp">Verify OTP</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="confirmation-popup" id="confirmationPopup">
+    <p>The meeting link will be shared to the verified mobile number</p>
+    <button onclick="closeConfirmation()">OK</button>
+</div>
+
+</body>
+</html>
